@@ -33,7 +33,7 @@ it, depending your DE/WM. (cf. below)
 * This script doesn't provide a client interface (pause,next,prev) </br>
 I suggest you use SP (https://gist.github.com/wandernauta/6800547) for this </br>
 purpose.
-* If you want to queue a single artist playlist, add prefix 'some' before to load </br>
+* If you want to queue a single artist playlist, </br>add prefix 'some' before to load 
 a complete playlist, acronyms are accepted for popular bands </br>
    - `play some PF` will play a Pink Floyd playlist</br>
    - `play some NMH` will play a Neutral milk hotel playlist </br>
