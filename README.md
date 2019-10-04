@@ -17,7 +17,7 @@ get blocked from further scraping. (using a proxy is recommended.) </br>
  accurate results. </br>
  No sign up or premium subscriptions are required, this is a small workaround 
  to Spotify API. </br>
- <img src="https://s3.gifyu.com/images/record.gif"> </img>
+ <img src="record.gif"> </img>
  
 ## Features:
 Queue up any track/album/playlist from the spotify library.
