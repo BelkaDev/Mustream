@@ -12,7 +12,7 @@ While you can always reset your ISP, I'm not responsible if you </br>
 get blocked from further scraping. (using a proxy is recommended.) </br>
 
 ## Description 
- This script will look up for the best available result given any keywords </br>
+ This script will look up for the best available result given any keywords. </br>
  Ideally you should give the complete track info ( $artist - $song ) for more 
  accurate results. </br>
  No sign up or premium subscriptions are required, this is a small workaround 
@@ -23,9 +23,9 @@ get blocked from further scraping. (using a proxy is recommended.) </br>
 Queue up any track/album/playlist from the spotify library.
 
 ## Usage :
-type a song title or artist name for a quick search. </br>
-add prefix Album/Playlist for respective results. </br>
-you can direcly input a playlist URL. </br>
+Type a song title or artist name for a quick search. </br>
+Add prefix Album/Playlist for respective results. </br>
+You can direcly input a playlist URL. </br>
 Spotify client must be running, there are many ways to hide </br>
 it, depending your DE/WM. (cf. below)
 
