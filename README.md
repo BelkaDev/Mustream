@@ -23,10 +23,10 @@ get blocked from further scraping. (using a proxy is recommended.) </br>
 Queue up any track/album/playlist from the spotify library.
 
 ## Usage :
-Type a song title or artist name for a quick search. </br>
-Add prefix Album/Playlist for respective results. </br>
-You can direcly input a playlist URL. </br>
-Spotify client must be running, there are many ways to hide </br>
+* Type a song title or artist name for a quick search. </br>
+* Add prefix Album/Playlist for respective results. </br>
+* You can direcly input a playlist URL. </br>
+* Spotify client must be running, there are many ways to hide 
 it, depending your DE/WM. (cf. below)
 
 ## Tricks & Notes :
