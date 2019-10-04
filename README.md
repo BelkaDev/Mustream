@@ -40,3 +40,8 @@ a complete playlist, acronyms are accepted for popular bands </br>
 * To hide the (ugly) Spotify GUI you can try out these commands. (will work better on WM) </br>
   - `xdotool search --name spotify windowunmap`
   - `wmctrl -r "spotify" -b toggle,hidden`
+
+## Installation :
+Download the script </br>
+Add it to your ~/.local/bin/ </br>
+Change alias to "play" in your .bashrc/.zshrc
