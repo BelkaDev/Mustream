@@ -20,7 +20,7 @@ get blocked from further scraping. (using a proxy is recommended.) </br>
  <img src="record.gif"> </img>
  
 ## Features:
-Queue up any track/album/playlist from the spotify library.
+Queue up any track/album/playlist from the spotify library from terminal.
 
 ## Usage :
 * Type a song title or artist name for a quick search. </br>
