@@ -13,9 +13,9 @@ get blocked from further scraping. (using a proxy is recommended.) </br>
 
 ## Description 
  This script will look up for the best available result given any keywords </br>
- Ideally you should give the complete track info ( $artist - $song ) for more </br>
+ Ideally you should give the complete track info ( $artist - $song ) for more 
  accurate results. </br>
- No sign up or premium subscriptions are required, this is a small workaround </br>
+ No sign up or premium subscriptions are required, this is a small workaround 
  to Spotify API. </br>
  <img src="https://s3.gifyu.com/images/record.gif"> </img>
  
