@@ -35,8 +35,8 @@ I suggest you use SP (https://gist.github.com/wandernauta/6800547) for this </br
 purpose.
 * If you want to queue a single artist playlist, </br>add prefix 'some' before to load 
 a complete playlist, acronyms are accepted for popular bands </br>
-   - `play some PF` will play a Pink Floyd playlist</br>
-   - `play some NMH` will play a Neutral milk hotel playlist </br>
+   - `play some PF` will queue up a Pink Floyd playlist</br>
+   - `play some NMH` will queue up a Neutral milk hotel playlist </br>
 * To hide the (ugly) Spotify GUI you can try out these commands. (will work better on WM) </br>
   - `xdotool search --name spotify windowunmap`
   - `wmctrl -r "spotify" -b toggle,hidden`
