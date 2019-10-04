@@ -29,7 +29,7 @@ You can direcly input a playlist URL. </br>
 Spotify client must be running, there are many ways to hide </br>
 it, depending your DE/WM. (cf. below)
 
-## Tricks & notes :
+## Tricks & Notes :
 * This script doesn't provide a client interface (pause,next,prev) </br>
 I suggest you use SP (https://gist.github.com/wandernauta/6800547) for this </br>
 purpose.
