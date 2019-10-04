@@ -30,8 +30,8 @@ Queue up any track/album/playlist from the spotify library.
 it, depending your DE/WM. (cf. below)
 
 ## Tricks & Notes :
-* This script doesn't provide a client interface (pause,next,prev)
-I suggest you use SP (https://gist.github.com/wandernauta/6800547) for this </br>
+* This script doesn't provide a client interface (pause,next,prev) </br>
+I suggest you use SP (https://gist.github.com/wandernauta/6800547) for this
 purpose.
 * If you want to queue a single artist playlist, add prefix 'some' before to load </br>
 a complete playlist, acronyms are accepted for recognized bands. </br>
