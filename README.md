@@ -40,6 +40,7 @@ a complete playlist, acronyms are accepted for popular bands: </br>
 * To hide the Spotify GUI you can try out these commands. (will work better on a WM) </br>
   - `xdotool search --name spotify windowunmap`
   - `wmctrl -r "spotify" -b toggle,hidden`
+* Some songs may not play for you due to country restrictions.
 
 ## Installation :
 * Download the script </br>
