@@ -34,7 +34,7 @@ it, depending your DE/WM. (cf. below)
 I suggest you use SP (https://gist.github.com/wandernauta/6800547) for this
 purpose.
 * If you want to queue a single artist playlist, add the prefix `some` before to load </br>
-a complete playlist, acronyms are accepted for recognized bands. </br>
+a complete playlist, acronyms are accepted for popular bands. </br>
    - `play some PF` will queue up a Pink Floyd playlist</br>
    - `play some NMH` will queue up a Neutral milk hotel playlist </br>
 * To hide the Spotify GUI you can try out these commands. (will work better on WM) </br>
