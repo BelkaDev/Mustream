@@ -1,5 +1,5 @@
 #!/bin/bash
-###https://github.com/BelkaDev/musicstream###
+### https://github.com/BelkaDev/musicstream ###
 
 function NetException
 {
