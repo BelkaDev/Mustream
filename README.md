@@ -42,6 +42,6 @@ a complete playlist, acronyms are accepted for recognized bands. </br>
   - `wmctrl -r "spotify" -b toggle,hidden`
 
 ## Installation :
-Download the script </br>
-Add it to your ~/.local/bin/ </br>
-Rename or change alias to `play` in your .bashrc/.zshrc
+* Download the script </br>
+* Add it to your ~/.local/bin/ </br>
+* Rename or change alias to `play` in your .bashrc/.zshrc
