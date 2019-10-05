@@ -44,4 +44,4 @@ a complete playlist, acronyms are accepted for recognized bands. </br>
 ## Installation :
 Download the script </br>
 Add it to your ~/.local/bin/ </br>
-Change alias to "play" in your .bashrc/.zshrc
+Rename or change alias to "play" in your .bashrc/.zshrc
