@@ -24,7 +24,7 @@ Queue up any track/album/playlist from the spotify library.
 
 ## Usage :
 * Type a song title or artist name for a quick search. </br>
-* Add prefix Album/Playlist for respective results. </br>
+* Add prefix `Album`/`Playlist` for respective results. </br>
 * You can direcly input a playlist URL. </br>
 * Spotify client must be running, there are many ways to hide 
 it, depending your DE/WM. (cf. below)
@@ -33,11 +33,11 @@ it, depending your DE/WM. (cf. below)
 * This script doesn't provide a client interface (pause,next,prev) </br>
 I suggest you use SP (https://gist.github.com/wandernauta/6800547) for this
 purpose.
-* If you want to queue a single artist playlist, add prefix 'some' before to load </br>
+* If you want to queue a single artist playlist, add the prefix `some` before to load </br>
 a complete playlist, acronyms are accepted for recognized bands. </br>
    - `play some PF` will queue up a Pink Floyd playlist</br>
    - `play some NMH` will queue up a Neutral milk hotel playlist </br>
-* To hide the (ugly) Spotify GUI you can try out these commands. (will work better on WM) </br>
+* To hide the Spotify GUI you can try out these commands. (will work better on WM) </br>
   - `xdotool search --name spotify windowunmap`
   - `wmctrl -r "spotify" -b toggle,hidden`
 
