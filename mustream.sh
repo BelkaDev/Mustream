@@ -32,7 +32,7 @@ function tracks_number()
  echo $(echo $( echo "$1")    | grep -oh -P '(?<="track_number").*?}'|sed s'/.$//' | sed 's/^/"track_id": /' | cut -d, -f1,3 | wc -l)
 }
 
-if [[ -z $(pidof spotify) ]]; then
+if [[ -z $(pidof -s spotify) ]]; then
   echo "Spotify is not running."
   exit
 fi
