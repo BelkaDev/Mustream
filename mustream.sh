@@ -1,6 +1,5 @@
 #!/bin/bash
 ###https://github.com/BelkaDev/musicstream###
-###Copyright (C) 2019 Belka###
 
 function NetException
 {
