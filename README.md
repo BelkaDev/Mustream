@@ -1,13 +1,6 @@
 # Mustream
 A quick 'hack' to stream any music through the command line.
 
-
-## <u> Caution: read before using! </u>
-This script sends automated requests in order to extract data. </br>
-you should use with caution not to get caught by a captcha: </br>
-* don't do it too fast 
-* use random delays between your queries. </br> 
-
 While you can always reset your ISP, I'm not responsible if you </br>
 get blocked from further scraping. (using a proxy is recommended.) </br>
 
