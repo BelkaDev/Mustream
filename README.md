@@ -1,8 +1,5 @@
 # Mustream
-A quick 'hack' to stream any music through the command line.
-
-While you can always reset your ISP, I'm not responsible if you </br>
-get blocked from further scraping. (using a proxy is recommended.) </br>
+A script to stream any music through the command line.
 
 ## Description 
  This script will look up for the best available result given any keywords. </br>
@@ -19,8 +16,7 @@ Queue up any track/album/playlist from the spotify library.
 * Type a song title or artist name for a quick search. </br>
 * Add prefix `Album`/`Playlist` for respective results. </br>
 * You can direcly input a playlist URL. </br>
-* Spotify client must be running, there are many ways to hide 
-it, depending your DE/WM. (cf. below)
+* Spotify client must be running. (cf. below on how to hide it).
 
 ## Tricks & Notes :
 * This script doesn't provide a client interface (pause,next,prev) </br>
