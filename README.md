@@ -1,5 +1,6 @@
 # Mustream
-A script to stream any music through the command line.
+
+A script to stream music from the spotify library using your terminal.
 
 ## Description 
  This script will look up for the best available result given any keywords. </br>
