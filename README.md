@@ -1,6 +1,6 @@
 # Mustream
 
-A script to stream music from the spotify library using your terminal.
+A quick hack to stream music from the spotify library using your terminal.
 
 ## Description 
  This script will look up for the best available result given any keywords. </br>
