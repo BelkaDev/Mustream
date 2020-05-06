@@ -19,7 +19,7 @@ Queue up any track/album/playlist from the spotify library.
 * Spotify client must be running. (cf. below on how to hide it).
 
 ## Notes and tricks :
-* This script doesn't include a client manager (to) </br>
+* This script doesn't include a client manager </br>
 I suggest you use SP (https://gist.github.com/wandernauta/6800547) for this
 matter.
 * you can explore playlists by adding the prefix `some`, this will return </br>
