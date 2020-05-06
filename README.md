@@ -1,13 +1,12 @@
 # Mustream
 
-A quick hack to stream music from the spotify library using your terminal.
+small exploit to stream music from the spotify library using your terminal.
 
 ## Description 
- This script will look up for the best available result given any keywords. </br>
- Ideally you should give the complete track info ( $artist - $song ) for more 
+ The script will look up for the most relevant result following a set of keywords. </br>
+ Ideally you should specify the complete track info ( <artist> - <title> ) for more 
  accurate results. </br>
- No sign up or premium subscriptions are required, this is a small workaround 
- to Spotify API. </br>
+ No sign up nor premium subscriptions are required. </br>
  <img src="record.gif"> </img>
  
 ## Features:
@@ -19,20 +18,25 @@ Queue up any track/album/playlist from the spotify library.
 * You can direcly input a playlist URL. </br>
 * Spotify client must be running. (cf. below on how to hide it).
 
-## Tricks & Notes :
-* This script doesn't provide a client interface (pause,next,prev) </br>
+## Notes and tricks :
+* This script doesn't include a client manager (to) </br>
 I suggest you use SP (https://gist.github.com/wandernauta/6800547) for this
-purpose.
-* If you want to queue a single artist playlist, add the prefix `some` before to load </br>
-a complete playlist, acronyms are accepted for popular bands: </br>
+matter.
+* you can explore playlists by adding the prefix `some`, this will return </br>
+a playlist related to your input, this option offers more flexibility to your search </br>
+as you can use it to look up for artists,tags,albums without restrictions. </br>
+it's also a good way to get music recommendations. </br>
+acronyms are valid for most cases: </br>
    - `play some PF` will queue up a Pink Floyd playlist</br>
    - `play some NMH` will queue up a Neutral milk hotel playlist </br>
 * To hide the Spotify GUI you can try out these commands. (will work better on a WM) </br>
   - `xdotool search --name spotify windowunmap`
   - `wmctrl -r "spotify" -b toggle,hidden`
-* Some songs may not play for you due to country restrictions.
+* Some songs may not start due to country restrictions.
 
 ## Installation :
-* Download the script </br>
-* Add it to your ~/.local/bin/ </br>
-* Rename or change alias to `play` in your .bashrc/.zshrc
+```
+git clone https://github.com/BelkaDev/mustream ~/mustream && cd ~/mustream
+chmod +x play
+move script to your $PATH
+```
