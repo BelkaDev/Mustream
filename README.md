@@ -1,12 +1,12 @@
 # Mustream
 
-small exploit to stream music from the spotify library using your terminal.
+Small exploit to stream music from the spotify library using your terminal.
 
 ## Description 
  The script will look up for the most relevant result following a set of keywords. </br>
- Ideally you should specify the complete track info ( <artist> - <title> ) for more 
+ Ideally you should specify the complete track info ( $artist - $title ) for more 
  accurate results. </br>
- No sign up nor premium subscriptions are required. </br>
+ No sign up nor premium subscriptions are required. </br> </br>
  <img src="record.gif"> </img>
  
 ## Features:
