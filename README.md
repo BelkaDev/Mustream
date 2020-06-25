@@ -2,6 +2,11 @@
 
 Small exploit to stream music from the spotify library using your terminal.
 
+### try it!
+```
+curl -s https://raw.githubusercontent.com/BelkaDev/Mustream/master/play | bash -s Thriller
+```
+
 ## Description 
  The script will look up for the most relevant result following a set of keywords. </br>
  Ideally you should specify the complete track info ( $artist - $title ) for more 
