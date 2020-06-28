@@ -4,7 +4,7 @@ Small exploit to stream music from the spotify library using your terminal.
 
 ### Try it!
 ``` bash
-curl -s https://raw.githubusercontent.com/BelkaDev/Mustream/master/play | sh -s Beat it
+curl -s https://raw.githubusercontent.com/BelkaDev/Mustream/master/play | sh -s Hung up
 ```
 
 ## Description 
@@ -40,8 +40,12 @@ acronyms are valid for most cases: </br>
 * Some songs may not start due to country restrictions.
 
 ## Installation :
+#### AUR Package
+The script is available in AUR for Archlinux users, you can install it with any AUR helper
 ```
-git clone https://github.com/BelkaDev/mustream ~/mustream && cd ~/mustream
-chmod +x play
-move script to your $PATH
+yay -S mustream-git
+```
+#### From source
+```
+git clone https://github.com/BelkaDev/mustream ~/mustream && cd ~/mustream && chmod +x play
 ```
