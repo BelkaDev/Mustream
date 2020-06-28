@@ -4,7 +4,7 @@ Small exploit to stream music from the spotify library using your terminal.
 
 ### Try it!
 ``` bash
-curl -s https://raw.githubusercontent.com/BelkaDev/Mustream/master/play | sh -s Hung up
+curl -s https://raw.githubusercontent.com/BelkaDev/Mustream/master/play | bash -s Hung up
 ```
 
 ## Description 
