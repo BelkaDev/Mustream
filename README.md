@@ -37,6 +37,7 @@ acronyms are valid for most cases: </br>
 * To hide the Spotify GUI you can try out these commands. (will work better on a WM) </br>
   - `xdotool search --name spotify windowunmap`
   - `wmctrl -r "spotify" -b toggle,hidden`
+* This script also supports [Spotifyd](https://github.com/Spotifyd/spotifyd) as Spotify client, you can defind which to use when both are running. (default being the official client)
 * Some songs may not start due to country restrictions.
 
 ## Installation :
