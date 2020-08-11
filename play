@@ -1,72 +1,86 @@
 #!/bin/bash
-# https://github.com/BelkaDev/mustream 
-# Requires a running Spotify desktop client
+# https://github.com/BelkaDev/mustream
+# Requires a running Spotify desktop client or spotifyd
 
-check::network() { 
-  [[ $? != 0 ]] && echo "Network error: couldn't reach server." && exit 1
+#client= 
+# spotify or spotifyd (leave it blank for auto detection)
+
+check::network() {
+      [[ $? != 0 ]] && echo "Network error: couldn't reach server." && exit 1
 }
 
 check::running() {
-[[ -z $(pidof -s spotify) ]] && echo "Spotify is not running." && exit 1
+      if [[ -z "$client" ]]; then
+            if [[ $(pidof -s spotify) ]]; then
+                  client=spotify
+            elif [[ $(pidof -s spotifyd) ]]; then
+                  : # client=spotify (redundancy, as currently it has only two possible options)
+            else
+                  echo "No supported Spotify client running." && exit 1
+            fi
+      elif [[ $(pidof -s spotifyd) ]] || [[ $(pidof -s spotify) ]]; then
+            echo "Spotify is not running." && exit 1
+      fi
 }
 
-_author_name(){
- echo $(echo $( echo "$1")   | grep -oh -P '(?<=a playlist by ).*?"'| awk -F"on Spotify" '{print $1}')
+_author_name() {
+      echo $(echo $(echo "$1") | grep -oh -P '(?<=a playlist by ).*?"' | awk -F"on Spotify" '{print $1}')
 }
 
-_artist_name()
-{
- echo $(echo $( echo "$1")   | grep -oh -P '(?<=a song by ).*' | awk -F"on Spotify" '{print $1}')
+_artist_name() {
+      echo $(echo $(echo "$1") | grep -oh -P '(?<=a song by ).*' | awk -F"on Spotify" '{print $1}')
 
 }
-_album_artist_name(){
- echo $(echo $( echo "$1")   | grep -oh -P '(?<=an album by ).*?"'| awk -F"on Spotify" '{print $1}' | head -1)
+_album_artist_name() {
+      echo $(echo $(echo "$1") | grep -oh -P '(?<=an album by ).*?"' | awk -F"on Spotify" '{print $1}' | head -1)
 }
 
-_current_list()
-{
-echo $(echo $( echo "$1")  |  grep -oh -P '(?<="name":").*(?=","description")' ) 
+_current_list() {
+      echo $(echo $(echo "$1") | grep -oh -P '(?<="name":").*(?=","description")')
 }
 
-_tracks_number()
-{ 
- echo $(echo $( echo "$1")    | grep -oh -P '(?<="track_number").*?}'|sed s'/.$//' | sed 's/^/"track_id": /' | cut -d, -f1,3 | wc -l)
+_tracks_number() {
+      echo $(echo $(echo "$1") | grep -oh -P '(?<="track_number").*?}' | sed s'/.$//' | sed 's/^/"track_id": /' | cut -d, -f1,3 | wc -l)
 }
- 
+
 check::running
 arg=track
 engine=https://www.google.com
 ###### Parsing arguments ######
 if [[ ${1^^} =~ ^(-A|--ALBUM|ALBUM)$ ]]; then
-arg=album && shift
+      arg=album && shift
 elif [[ ${1^^} =~ ^(-P|--PLAYLIST|PLAYLIST|SOME)$ ]]; then
-arg=playlist && shift
+      arg=playlist && shift
 fi
 if [[ $* == *"open.spotify.com/playlist/"* ]]; then
-arg=playlist
-key=$(echo $* | sed 's:.*/::' | cut -c 1-22)
+      arg=playlist
+      key=$(echo $* | sed 's:.*/::' | cut -c 1-22)
 else
-###### Preparing request ######
-req=$engine"/search?hl=en&q=$(echo $* | sed 's/ /+/g')"+"site:open.spotify.com/"$arg
-###### Fetching key ######
-key=$(curl  -sA "FF" $req | \
-  grep -o '<a href=['"'"'"][^"'"'"']*['"'"'"]' | \
-  sed -e 's/^<a href=["'"'"']//' -e 's/["'"'"']$//'  | \
-  grep -i 'open.spotify.com/'$arg/ | \
-  grep -i 'https'  -m 1  | \
-  sed 's:.*/::' | \
-  cut -c 1-22)
-  check::network
+      ###### Preparing request ######
+      req=$engine"/search?hl=en&q=$(echo $* | sed 's/ /+/g')"+"site:open.spotify.com/"$arg
+      ###### Fetching key ######
+      key=$(curl -sA "FF" $req |
+            grep -o '<a href=['"'"'"][^"'"'"']*['"'"'"]' |
+            sed -e 's/^<a href=["'"'"']//' -e 's/["'"'"']$//' |
+            grep -i 'open.spotify.com/'$arg/ |
+            grep -i 'https' -m 1 |
+            sed 's:.*/::' |
+            cut -c 1-22)
+      check::network
 fi
 ###### Generating link ######
 link=https://open.spotify.com/$arg/$key
 curr=$(curl -s $link)
 check::network
-[[ $(echo "$curr" | grep -m 1 -o "error") = "error" || 
-  $(echo "$curr" | grep -m 1 -o "Moved Permanently") = "Moved Permanently" ]] &&
+[[ $(echo "$curr" | grep -m 1 -o "error") = "error" || \
+$(echo "$curr" | grep -m 1 -o "Moved Permanently") = "Moved Permanently" ]] &&
       echo "Couldn't find any $arg with given data." && exit 1
 ###### Sending D-Bus Event ######
-dbus-send  --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.OpenUri string:spotify:$arg:$key &>/dev/null
+if [[ "$client" == "spotify" ]]; then
+      dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.OpenUri string:spotify:$arg:$key &>/dev/null
+else # elif [[ "$client" == "spotifyd" ]]; then (redundancy, as currently it has only two possible options)
+      dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotifyd /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.OpenUri string:spotify:$arg:$key &>/dev/null
+fi
 ###### Output ######
 echo "###### Queued ${arg^} ######"
 if [[ $arg = "track" ]]; then
@@ -78,7 +92,7 @@ elif [[ $arg = "album" ]]; then
       echo "Album : $(_current_list "$curr")"
       echo "added $(_tracks_number "$curr") tracks to queue."
 elif [[ $arg = "playlist" ]]; then
-###echo "Playlist author : $(author_name "$curr")" #useless info
+      ###echo "Playlist author : $(author_name "$curr")" #useless info
       echo "Playlist name : $(_current_list "$curr")"
       echo "Playlist URL : $link"
       echo "added $(_tracks_number "$curr") tracks to queue."
