@@ -1,8 +1,9 @@
 #!/bin/bash
 # https://github.com/BelkaDev/mustream
-# Requires a running Spotify desktop client
+# Requires a running Spotify desktop client or spotifyd
 
-client= # spotify or spotifyd (leave it blank for auto detection)
+#client= 
+# spotify or spotifyd (leave it blank for auto detection)
 
 check::network() {
       [[ $? != 0 ]] && echo "Network error: couldn't reach server." && exit 1
