@@ -2,16 +2,22 @@
 # https://github.com/BelkaDev/mustream
 # Requires a running Spotify desktop client
 
+client= # spotify or spotifyd (leave it blank for auto detection)
+
 check::network() {
       [[ $? != 0 ]] && echo "Network error: couldn't reach server." && exit 1
 }
 
 check::running() {
-      if [[ $(pidof -s spotifyd) ]]; then
-            client=spotifyd
-      elif [[ $(pidof -s spotify) ]]; then
-            : # client=spotify (redundancy, as currently it has only two possible outcomes)
-      else
+      if [[ -z "$client" ]]; then
+            if [[ $(pidof -s spotifyd) ]]; then
+                  client=spotifyd
+            elif [[ $(pidof -s spotify) ]]; then
+                  : # client=spotify (redundancy, as currently it has only two possible options)
+            else
+                  echo "No supported Spotify client running." && exit 1
+            fi
+      elif [[ $(pidof -s spotifyd) ]] || [[ $(pidof -s spotify) ]]; then
             echo "Spotify is not running." && exit 1
       fi
 }
@@ -71,7 +77,7 @@ $(echo "$curr" | grep -m 1 -o "Moved Permanently") = "Moved Permanently" ]] &&
 ###### Sending D-Bus Event ######
 if [[ "$client" == "spotifyd" ]]; then
       dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotifyd /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.OpenUri string:spotify:$arg:$key &>/dev/null
-else # elif [[ "$client" == "spotify" ]]; then (redundancy, as currently it has only two possible outcomes)
+else # elif [[ "$client" == "spotify" ]]; then (redundancy, as currently it has only two possible options)
       dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.OpenUri string:spotify:$arg:$key &>/dev/null
 fi
 ###### Output ######
