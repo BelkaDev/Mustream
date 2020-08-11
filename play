@@ -10,9 +10,9 @@ check::network() {
 
 check::running() {
       if [[ -z "$client" ]]; then
-            if [[ $(pidof -s spotifyd) ]]; then
-                  client=spotifyd
-            elif [[ $(pidof -s spotify) ]]; then
+            if [[ $(pidof -s spotify) ]]; then
+                  client=spotify
+            elif [[ $(pidof -s spotifyd) ]]; then
                   : # client=spotify (redundancy, as currently it has only two possible options)
             else
                   echo "No supported Spotify client running." && exit 1
@@ -75,10 +75,10 @@ check::network
 $(echo "$curr" | grep -m 1 -o "Moved Permanently") = "Moved Permanently" ]] &&
       echo "Couldn't find any $arg with given data." && exit 1
 ###### Sending D-Bus Event ######
-if [[ "$client" == "spotifyd" ]]; then
-      dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotifyd /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.OpenUri string:spotify:$arg:$key &>/dev/null
-else # elif [[ "$client" == "spotify" ]]; then (redundancy, as currently it has only two possible options)
+if [[ "$client" == "spotify" ]]; then
       dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.OpenUri string:spotify:$arg:$key &>/dev/null
+else # elif [[ "$client" == "spotifyd" ]]; then (redundancy, as currently it has only two possible options)
+      dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotifyd /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.OpenUri string:spotify:$arg:$key &>/dev/null
 fi
 ###### Output ######
 echo "###### Queued ${arg^} ######"
