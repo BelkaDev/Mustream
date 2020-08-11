@@ -7,7 +7,13 @@ check::network() {
 }
 
 check::running() {
-      [[ -z $(pidof -s spotify) ]] && echo "Spotify is not running." && exit 1
+      if [[ $(pidof -s spotifyd) ]]; then
+            client=spotifyd
+      elif [[ $(pidof -s spotify) ]]; then
+            : # client=spotify (redundancy, as currently it has only two possible outcomes)
+      else
+            echo "Spotify is not running." && exit 1
+      fi
 }
 
 _author_name() {
@@ -63,7 +69,11 @@ check::network
 $(echo "$curr" | grep -m 1 -o "Moved Permanently") = "Moved Permanently" ]] &&
       echo "Couldn't find any $arg with given data." && exit 1
 ###### Sending D-Bus Event ######
-dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.OpenUri string:spotify:$arg:$key &>/dev/null
+if [[ "$client" == "spotifyd" ]]; then
+      dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotifyd /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.OpenUri string:spotify:$arg:$key &>/dev/null
+else # elif [[ "$client" == "spotify" ]]; then (redundancy, as currently it has only two possible outcomes)
+      dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.OpenUri string:spotify:$arg:$key &>/dev/null
+fi
 ###### Output ######
 echo "###### Queued ${arg^} ######"
 if [[ $arg = "track" ]]; then
