@@ -10,78 +10,73 @@ check::running() {
 [[ -z $(pidof -s spotify) ]] && echo "Spotify is not running." && exit 1
 }
 
-_author_name(){
- echo $(echo $( echo "$1")   | grep -oh -P '(?<=a playlist by ).*?"'| awk -F"on Spotify" '{print $1}')
+_http_request() {
+user_agent="User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.89 Safari/537.36"
+header=$(echo "User-Agent: $user_agent" \
+ echo "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8" \
+ echo "Accept-Language: en-US,en;q=0.5" \
+ echo "Upgrade-Insecure-Requests: 1" \
+ echo "Connection: keep-alive")
+ curl -s "$1" -H "$header" --compressed 
 }
 
-_artist_name()
-{
- echo $(echo $( echo "$1")   | grep -oh -P '(?<=a song by ).*' | awk -F"on Spotify" '{print $1}')
-
-}
-_album_artist_name(){
- echo $(echo $( echo "$1")   | grep -oh -P '(?<=an album by ).*?"'| awk -F"on Spotify" '{print $1}' | head -1)
+_fetch_metadata() {
+parameter="$1"
+echo "$result" |  grep -Eo "meta property=\"og:$parameter\".*?" | grep -oh -P '(?<=content=\").*' | awk -F "\" />" '{print $1}'
 }
 
-_current_list()
-{
-echo $(echo $( echo "$1")  |  grep -oh -P '(?<="name":").*(?=","description")' ) 
-}
-
-_tracks_number()
-{ 
- echo $(echo $( echo "$1")    | grep -oh -P '(?<="track_number").*?}'|sed s'/.$//' | sed 's/^/"track_id": /' | cut -d, -f1,3 | wc -l)
+_format_output() {
+  artist=" $(echo "$1" | awk -F "·"  '{print $1}')·"
+  [[ $type == "playlist" ]] && artist="" # hides the playlist author name
+  item="$2"
+  echo "$artist $item."
+  echo "Details:$(echo "$1" | awk -F "·"  '{$1="";print $0 }')" | sed -e 's/\s\+/ · /2g'
 }
  
 check::running
-arg=track
+type=track # default
 engine=https://www.google.com
+
 ###### Parsing arguments ######
 if [[ ${1^^} =~ ^(-A|--ALBUM|ALBUM)$ ]]; then
-arg=album && shift
+type=album && shift
 elif [[ ${1^^} =~ ^(-P|--PLAYLIST|PLAYLIST|SOME)$ ]]; then
-arg=playlist && shift
+type=playlist && shift
 fi
 if [[ $* == *"open.spotify.com/playlist/"* ]]; then
-arg=playlist
+type=playlist
 key=$(echo $* | sed 's:.*/::' | cut -c 1-22)
 else
+
 ###### Preparing request ######
-req=$engine"/search?hl=en&q=$(echo $* | sed 's/ /+/g')"+"site:open.spotify.com/"$arg
+qurl=$engine"/search?hl=en&q=$(echo $* | sed 's/ /+/g')"+"site:open.spotify.com/"$type
+
 ###### Fetching key ######
-key=$(curl  -sA "FF" $req | \
+dom=`_http_request $qurl`
+key=$(echo "$dom" | \
   grep -o '<a href=['"'"'"][^"'"'"']*['"'"'"]' | \
   sed -e 's/^<a href=["'"'"']//' -e 's/["'"'"']$//'  | \
-  grep -i 'open.spotify.com/'$arg/ | \
+  grep -i 'open.spotify.com/'$type/ | \
   grep -i 'https'  -m 1  | \
   sed 's:.*/::' | \
   cut -c 1-22)
   check::network
 fi
+
 ###### Generating link ######
-link=https://open.spotify.com/$arg/$key
-curr=$(curl -s $link)
+link=https://open.spotify.com/$type/$key
+result=`_http_request $link`
 check::network
-[[ $(echo "$curr" | grep -m 1 -o "error") = "error" || 
-  $(echo "$curr" | grep -m 1 -o "Moved Permanently") = "Moved Permanently" ]] &&
-      echo "Couldn't find any $arg with given data." && exit 1
+[[ $(echo "$result" | grep -m 1 -o "error") = "error" || 
+  $(echo "$result" | grep -m 1 -o "Moved Permanently") = "Moved Permanently" ]] &&
+      echo "Nothing found." && exit 1
+
 ###### Sending D-Bus Event ######
-dbus-send  --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.OpenUri string:spotify:$arg:$key &>/dev/null
+dbus-send  --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.OpenUri string:spotify:$type:$key &>/dev/null
+
 ###### Output ######
-echo "###### Queued ${arg^} ######"
-if [[ $arg = "track" ]]; then
-      echo "Artist : $(_artist_name "$curr")"
-      echo "Track name : $(_current_list "$curr")"
-      echo "added $(_tracks_number "$curr") track to queue."
-elif [[ $arg = "album" ]]; then
-      echo "Artist : $(_album_artist_name "$curr")"
-      echo "Album : $(_current_list "$curr")"
-      echo "added $(_tracks_number "$curr") tracks to queue."
-elif [[ $arg = "playlist" ]]; then
-###echo "Playlist author : $(author_name "$curr")" #useless info
-      echo "Playlist name : $(_current_list "$curr")"
-      echo "Playlist URL : $link"
-      echo "added $(_tracks_number "$curr") tracks to queue."
-fi
-###### End ######
+echo "Playing: $(_format_output "$(_fetch_metadata "description")" "$(_fetch_metadata "title")")"  
+[[ $type = "playlist" ]] && echo "Url: $link"
+
+###### Exiting ######
 exit 0
