@@ -22,7 +22,7 @@ header=$(echo "User-Agent: $user_agent" \
 
 _fetch_metadata() {
 parameter="$1"
-echo "$result" |  grep -Eo "meta property=\"og:$parameter\".*?" | grep -oh -P '(?<=content=\").*' | awk -F "\" />" '{print $1}'
+echo "$result" |  grep -Eo "meta property=\"og:$parameter\".*?" | grep -oh -P '(?<=content=\").*' | awk -F "\" ?/>" '{print $1}'
 }
 
 _format_output() {
