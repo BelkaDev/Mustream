@@ -54,7 +54,7 @@ qurl=$engine"/search?hl=en&q=$(echo $* | sed 's/ /+/g')"+"site:open.spotify.com/
 ###### Fetching key ######
 dom=`_http_request $qurl`
 key=$(echo "$dom" | \
-  grep -o '<a href=['"'"'"][^"'"'"']*['"'"'"]' | \
+  grep -o '<a [^>]* href=['"'"'"][^"'"'"']*['"'"'"]' | \
   sed -e 's/^<a href=["'"'"']//' -e 's/["'"'"']$//'  | \
   grep -i 'open.spotify.com/'$type/ | \
   grep -i 'https'  -m 1  | \
